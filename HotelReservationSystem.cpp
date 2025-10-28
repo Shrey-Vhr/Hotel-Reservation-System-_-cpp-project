@@ -20,15 +20,14 @@ class Room{
 };
 //view room function
 void viewRooms(const vector<Room>&rooms){
-    
 }
 //book room function
-void vookRoom(const vector<Room>&rooms){
-    
+void bookRoom(const vector<Room>&rooms){
+
 }
 //cancel booking function
 void cancelBooking(const vector<Room>&rooms){
-    
+
 }
 //update booking function
 void updateBooking(const vector<Room>&rooms){
