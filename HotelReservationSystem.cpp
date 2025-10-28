@@ -19,7 +19,7 @@ class Room{
 };
 //view room function
 void viewRooms(const vector<Room>&rooms){
-    
+    //test
 }
 //book room function
 void vookRoom(const vector<Room>&rooms){
@@ -77,4 +77,5 @@ int main(){
         default:
             cout<<"Invalid Entry, Try again!";
     }
+
 }
