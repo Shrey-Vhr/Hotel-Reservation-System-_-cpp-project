@@ -23,7 +23,7 @@ void bookRoom(const vector<Room>& rooms) {
          << "-----------------------------\n";
     fout.close();
 
-    cout << "✅ Booking confirmed for " << name << "!\n";
+    cout << "Booking confirmed for " << name << "!\n";
 }
 
 // Cancel booking
@@ -36,7 +36,7 @@ void cancelBooking() {
     ofstream fout("temp.txt");
 
     if (!fin) {
-        cout << "⚠️ No bookings found.\n";
+        cout << "No bookings found.\n";
         return;
     }
 
@@ -63,9 +63,9 @@ void cancelBooking() {
     rename("temp.txt", "bookings.txt");
 
     if (found)
-        cout << "✅ Booking cancelled successfully.\n";
+        cout << "Booking cancelled successfully.\n";
     else
-        cout << "❌ No booking found for this phone number.\n";
+        cout << "No booking found for this phone number.\n";
 }
 
 // Placeholder for future updates
