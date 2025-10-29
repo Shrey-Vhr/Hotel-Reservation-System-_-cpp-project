@@ -11,7 +11,7 @@ Room::Room(int n,float p,string t,string f) {
     facilities=f;
 }
 //Function to display room info
-void Room::display(){
+void Room::display() const{
     cout<<"Room "<<number<<" ("<<type<<") - Rs."<<price<<endl;
     cout<<"Facilities: "<<facilities<<"\n\n";
 }
@@ -19,7 +19,7 @@ void Room::display(){
 //Show all available rooms
 void viewRooms(const vector<Room>& rooms) {
     cout << "\n=== Available Rooms ===\n";
-    for (const auto& room : rooms) {
-        room.display();
+    for (int i = 0; i < rooms.size(); i++) {
+    rooms[i].display();
     }
 }

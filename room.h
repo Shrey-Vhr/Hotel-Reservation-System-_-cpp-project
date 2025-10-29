@@ -19,7 +19,7 @@ public:
     Room(int n, float p, string t, string f);
 
     //display krne ke liye function call
-    void display();
+    void display() const;//so it does not change or modify anything
 };
 
 //ye rooms ki detail leke vector me store karega
