@@ -1,4 +1,4 @@
-#ifndef ROOM_H  //agar roo.h deefine nahi hua abi tak
+#ifndef ROOM_H  //agar room h define nahi hua abi tak
 #define ROOM_H  //to usko define krdo
 
 //Header files

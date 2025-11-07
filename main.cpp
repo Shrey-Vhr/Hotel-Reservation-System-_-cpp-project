@@ -1,3 +1,6 @@
+
+//TO RUN (./hotel)
+
 #include <iostream>
 #include <vector>
 #include "room.h"
