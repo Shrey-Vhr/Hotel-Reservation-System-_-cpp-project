@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 using namespace std;
 
 // Book a room and save in bookings.txt
@@ -23,7 +24,7 @@ void bookRoom(const vector<Room>& rooms) {
          << "-----------------------------\n";
     fout.close();
 
-    cout << "Booking confirmed for " << name << "!\n";
+    cout<<"Booking confirmed for "<<name<<"!\n";
 }
 
 // Cancel booking
@@ -46,6 +47,9 @@ void cancelBooking() {
     while(getline(fin, line)){
         if(line.find("Phone: ")!=string::npos) {
             string ph=line.substr(7);
+            ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());// to remove the unintentionally added /r or /n to the end of line in bookings.txt automatically
+            ph.erase(remove(ph.begin(), ph.end(), '\n'), ph.end());
+
             if(ph==phone) {
                 skip=true;
                 found=true;
@@ -136,17 +140,20 @@ void viewMyBookings(){
 
      while(getline(fin,line)){
         //agr name milta h to usme se username read n store krlo
-        if(line.find("Name:")!=string::npos){
-            name = line.substr(line.find("Name:") + 6);//username 7th character se start hora h
+        if (line.find("Name:") != string::npos) {
+            name = line.substr(6);//username 7th character se start hora h
         }
         //agr phone milta h to usme se phone no. read n store krlo
-        else if(line.find("Phone:")!=string::npos){
-            ph = line.substr(line.find("Phone:") + 7);//phone no. 8th character se start hora h
-        }
-        //agr room milta h to usme se room no. read n store krlo
-        else if(line.find("Room:")!=string::npos){
-            room = line.substr(line.find("Room:") + 6);//room no. 7th character se start hora h
+        else if (line.find("Phone:") != string::npos) {
+            ph = line.substr(7);//phone no. 8th character se start hora h
+            ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());
+            ph.erase(remove(ph.begin(), ph.end(), '\n'), ph.end());
 
+        } 
+        //agr room milta h to usme se room no. read n store krlo
+        else if (line.find("Room:") != string::npos) {
+            room = line.substr(6);//room no. 7th character se start hora h
+        
             //Once we have all details, check if phone matches
             if (ph == phone) {
                 cout<<"Name: "<<name<<endl;
@@ -157,10 +164,10 @@ void viewMyBookings(){
             }
         }
         else if (line.find("-----------------------------") != string::npos) {
-            // reset for next booking safely
-            name = "";
-            ph = "";
-            room = "";
+            //reset for next booking
+            name.clear();
+            ph.clear();
+            room.clear();
         }
     }
 
