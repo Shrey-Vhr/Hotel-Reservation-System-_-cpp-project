@@ -30,50 +30,50 @@ void bookRoom(const vector<Room>& rooms) {
 // Cancel booking
 void cancelBooking() {
     string phone;
-    cout<<"\nEnter your phone number to cancel booking: ";
-    cin>>phone;
+    cout << "\nEnter your phone number to cancel booking: ";
+    cin >> phone;
 
-    ifstream fin("bookings.txt");// open existing file for reading
-    ofstream fout("temp.txt");// new file to store remaining bookings except the one to be deleted
+    ifstream fin("bookings.txt");
+    ofstream fout("temp.txt");
 
-    if(!fin){// if fin not found
-        cout<<"No bookings found.\n";
+    if (!fin) {
+        cout << "No bookings found.\n";
         return;
     }
 
-    string line, ph;
-    bool found=false;// ph no. mila ya ni
-    bool skipBlock=false; //flag to skip the whole booking
+    string line, block, ph;
+    bool found = false;
 
-    while(getline(fin,line)){
-        //Skip empty lines for safety
-        if(line.empty()) continue;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
 
-        //Detect Phone number
-        if(line.find("Phone: ") != string::npos){
-            ph=line.substr(7);
-            // jb koi data kisi file me save krte h to kai baar unknowingly unwanted characters jaise \r \n apne aap lag jate h.. joki baadme problem krte h to unko remove krna zaruri hai
-            ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());
-            ph.erase(remove(ph.begin(), ph.end(), '\n'), ph.end());
+        block += line + "\n";  // store each line into current booking block
 
-            if(ph == phone){
-                found=true;
-                skipBlock=true; //start skipping this booking
+        // If this line is the separator → block is complete
+        if (line.find("-----------------------------") != string::npos) {
+
+            // 1. Find the phone number inside the current block
+            size_t pos = block.find("Phone: "); // stores the index returned by find.. size_t is unsigned integer type and can never be -ve
+            if (pos != string::npos){// agar phine word milgya to...
+                ph = block.substr(pos + 7, block.find("\n", pos) - (pos + 7));
+
+                // Clean hidden characters
+                ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());
+                ph.erase(remove(ph.begin(), ph.end(), '\n'), ph.end());
             }
-        }
 
-        //Check end of a booking block
-        if(line.find("-----------------------------") != string::npos){
-            //When we reach separator.. stop skipping after this line
-            if(skipBlock){
-                skipBlock=false;
-                continue;//don't write separator line either
+            // 2. Compare with the phone number user entered
+            if (ph == phone) {
+                found = true;
+            } else {
+                // Write this block to temp file
+                fout << block;
             }
-        }
 
-        // Only write lines that are NOT part of a cancelled booking
-        if(!skipBlock)//if not skipping any lines then writem them to temp.txt
-            fout<<line<<"\n";
+            // Reset for next booking
+            block.clear();
+            ph.clear();
+        }
     }
 
     fin.close();
@@ -82,11 +82,12 @@ void cancelBooking() {
     remove("bookings.txt");
     rename("temp.txt", "bookings.txt");
 
-    if(found)
-        cout<<"Booking cancelled successfully!\n";
+    if (found)
+        cout << "Booking cancelled successfully!\n";
     else
-        cout<<"No booking found for this phone number.\n";
+        cout << "No booking found for this phone number.\n";
 }
+
 
 void updateBooking(){
     string phone;
