@@ -17,7 +17,7 @@ void bookRoom(const vector<Room>& rooms) {
     cout << "Enter room number to book: ";
     cin >> roomNo;
 
-    ofstream fout("bookings.txt", ios::app);
+    ofstream fout("bookings.txt", ios::app);// input output stream , append.. append isliye taki pichla data na udjaye aur file ko modify krein naki rewrite
     fout << "Name: " << name << "\n"
          << "Phone: " << phone << "\n"
          << "Room: " << roomNo << "\n"
@@ -33,31 +33,47 @@ void cancelBooking() {
     cout<<"\nEnter your phone number to cancel booking: ";
     cin>>phone;
 
-    ifstream fin("bookings.txt");
-    ofstream fout("temp.txt");
+    ifstream fin("bookings.txt");// open existing file for reading
+    ofstream fout("temp.txt");// new file to store remaining bookings except the one to be deleted
 
-    if(!fin){
+    if(!fin){// if fin not found
         cout<<"No bookings found.\n";
         return;
     }
 
-    string line;
-    bool skip=false, found=false;
+    string line, ph;
+    bool found=false;// ph no. mila ya ni
+    bool skipBlock=false; //flag to skip the whole booking
 
-    while(getline(fin, line)){
-        if(line.find("Phone: ")!=string::npos) {
-            string ph=line.substr(7);
-            ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());// to remove the unintentionally added /r or /n to the end of line in bookings.txt automatically
+    while(getline(fin,line)){
+        //Skip empty lines for safety
+        if(line.empty()) continue;
+
+        //Detect Phone number
+        if(line.find("Phone: ") != string::npos){
+            ph=line.substr(7);
+            // jb koi data kisi file me save krte h to kai baar unknowingly unwanted characters jaise \r \n apne aap lag jate h.. joki baadme problem krte h to unko remove krna zaruri hai
+            ph.erase(remove(ph.begin(), ph.end(), '\r'), ph.end());
             ph.erase(remove(ph.begin(), ph.end(), '\n'), ph.end());
 
-            if(ph==phone) {
-                skip=true;
+            if(ph == phone){
                 found=true;
+                skipBlock=true; //start skipping this booking
             }
         }
-        if(!skip) fout<<line<<"\n";
-        if(line.find("-----------------------------")!=string::npos)
-            skip=false;
+
+        //Check end of a booking block
+        if(line.find("-----------------------------") != string::npos){
+            //When we reach separator.. stop skipping after this line
+            if(skipBlock){
+                skipBlock=false;
+                continue;//don't write separator line either
+            }
+        }
+
+        // Only write lines that are NOT part of a cancelled booking
+        if(!skipBlock)//if not skipping any lines then writem them to temp.txt
+            fout<<line<<"\n";
     }
 
     fin.close();
@@ -67,43 +83,59 @@ void cancelBooking() {
     rename("temp.txt", "bookings.txt");
 
     if(found)
-        cout<<"Booking cancelled successfully.\n";
+        cout<<"Booking cancelled successfully!\n";
     else
         cout<<"No booking found for this phone number.\n";
 }
 
-void updateBooking() {
+void updateBooking(){
     string phone;
     cout<<"\nEnter your phone number to update booking: ";
     cin>>phone;
 
-    ifstream fin("bookings.txt");// reading
-    ofstream fout("temp.txt");//writing in temp file.. agr present nahi hogi to create kr dega
+    ifstream fin("bookings.txt");
+    ofstream fout("temp.txt");
 
-    if(!fin){// if file doesnt exist
+    if(!fin){
         cout<<"No bookings found.\n";
         return;
     }
 
-    string line;
-    bool found=false; // to check if ph no. matched in bookings file or not
-    string newRoom;
+    string line, newRoom;
+    bool found=false;
+    bool skipNextLine=false; // flag to skip old Room line
 
-    while(getline(fin,line)){// reads the file line by line until the end.. reads ph no., name, etc etc
-        if(line.find("Phone: ")!=string::npos){// agr nth position se pehle pehel ph no. milgya
-            string ph=line.substr(7);// kyunki ph me sirf no. store karna hai aur wo 8th character se shuru hota h
-            
-            if(ph==phone){
+    while(getline(fin,line)){
+        //Skip empty lines for safety
+        if(line.empty()) continue;
+
+        //Skip writing the old Room line after updating
+        if(skipNextLine){
+            skipNextLine=false;
+            continue;
+        }
+
+        if(line.find("Phone: ") != string::npos){
+            string ph = line.substr(7);
+            ph.erase(remove(ph.begin(), ph.end(),'\r'), ph.end());
+            ph.erase(remove(ph.begin(), ph.end(),'\n'), ph.end());
+
+            if(ph == phone){
                 found=true;
-                fout<<line<<"\n";// insert the same phone no. into temp file
+                fout<<line<<"\n";//keep phone line as is
 
-                //replace the old line with new one
-                getline(fin,line);//reads the line which contains old room info
+                //Now skip the next Room line and replace with new
+                getline(fin, line); // read the next line (old Room)
+                skipNextLine=false; // already skipped manually
+
                 cout<<"Enter new room number: ";
                 cin>>newRoom;
-                fout<<"Room: "<<newRoom<<"\n";
+                fout<<"Room: "<<newRoom<<"\n";// write new room number
+                continue; // skip to next iteration
             }
         }
+
+        // Normal line writing for all other cases
         fout<<line<<"\n";
     }
 
@@ -111,13 +143,14 @@ void updateBooking() {
     fout.close();
 
     remove("bookings.txt");
-    rename("temp.txt","bookings.txt");
+    rename("temp.txt", "bookings.txt");
 
     if(found)
         cout<<"Booking updated successfully!\n";
     else
         cout<<"No booking found for this phone number.\n";
 }
+
 
 void viewMyBookings(){
     string phone;
@@ -151,11 +184,11 @@ void viewMyBookings(){
 
         } 
         //agr room milta h to usme se room no. read n store krlo
-        else if (line.find("Room:") != string::npos) {
+        else if(line.find("Room:") != string::npos){
             room = line.substr(6);//room no. 7th character se start hora h
         
             //Once we have all details, check if phone matches
-            if (ph == phone) {
+            if(ph == phone){
                 cout<<"Name: "<<name<<endl;
                 cout<<"Phone: "<<ph<<endl;
                 cout<<"Room: "<<room<<endl;
@@ -163,7 +196,7 @@ void viewMyBookings(){
                 found=true;
             }
         }
-        else if (line.find("-----------------------------") != string::npos) {
+        else if(line.find("-----------------------------") != string::npos) {
             //reset for next booking
             name.clear();
             ph.clear();
