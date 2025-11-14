@@ -10,14 +10,8 @@ using namespace std;
 int main() {
     vector<Room>rooms= {
         Room(101,1500,"Single","AC, TV & Breakfast"),
-        Room(102,1500,"Single","AC, TV & Breakfast"),
-        Room(103,1500,"Single","AC, TV & Breakfast"),
-        Room(201,3000,"Double","AC, Wifi, TV & Breakfast"),
-        Room(202,3000,"Double","AC, Wifi, TV & Breakfast"),
-        Room(203,3000,"Double","AC, Wifi, TV & Breakfast"),
-        Room(301,4500,"Suite","AC, Wifi, TV, Breakfast, Jacuzzi & Sauna"),
-        Room(302,4500,"Suite","AC, Wifi, TV, Breakfast, Jacuzzi & Sauna"),
-        Room(303,4500,"Suite","AC, Wifi, TV, Breakfast, Jacuzzi & Sauna")
+        Room(102,3000,"Double","AC, Wifi, TV & Breakfast"),
+        Room(103,4500,"Suite","AC, Wifi, TV, Breakfast, Jacuzzi & Sauna")
     };
     //pehle user ko welcome krna hai aur uske baad pucho ki kya service chahiye
     cout << "\n-----------------------------";
