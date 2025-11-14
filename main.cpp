@@ -1,5 +1,5 @@
-
-//TO RUN (./hotel)
+// g++ main.cpp room.cpp booking.cpp -o hotel
+// ./hotel
 
 #include <iostream>
 #include <vector>
