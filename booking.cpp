@@ -14,6 +14,12 @@ void bookRoom(const vector<Room>& rooms) {
     getline(cin, name);
     cout << "Enter phone number: ";
     cin >> phone;
+    while (phone.length() != 10) {
+    cout << "Invalid! Phone number must be EXACTLY 10 digits.\n";
+    cout << "Enter again: ";
+    cin >> phone;
+    }
+
     cout << "Enter room number to book: ";
     cin >> roomNo;
 
@@ -32,6 +38,11 @@ void cancelBooking() {
     string phone;
     cout << "\nEnter your phone number to cancel booking: ";
     cin >> phone;
+    while (phone.length() != 10) {
+    cout << "Invalid! Phone number must be EXACTLY 10 digits.\n";
+    cout << "Enter again: ";
+    cin >> phone;
+    }
 
     ifstream fin("bookings.txt");
     ofstream fout("temp.txt");
@@ -93,6 +104,11 @@ void updateBooking(){
     string phone;
     cout<<"\nEnter your phone number to update booking: ";
     cin>>phone;
+    while (phone.length() != 10) {
+    cout << "Invalid! Phone number must be EXACTLY 10 digits.\n";
+    cout << "Enter again: ";
+    cin >> phone;
+    }
 
     ifstream fin("bookings.txt");
     ofstream fout("temp.txt");
@@ -157,6 +173,11 @@ void viewMyBookings(){
     string phone;
     cout<<"\nEnter your phone number to view your bookings: ";
     cin>>phone;
+    while (phone.length() != 10) {
+    cout << "Invalid! Phone number must be EXACTLY 10 digits.\n";
+    cout << "Enter again: ";
+    cin >> phone;
+    }
 
     ifstream fin("bookings.txt");
     if(!fin){
