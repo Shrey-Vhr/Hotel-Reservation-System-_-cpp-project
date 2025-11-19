@@ -1,0 +1,40 @@
+Room: 203
+Price: 3000
+Type: Double
+Facilities: AC, TV, Wifi & Breakfast
+-----------------------------
+Room: 303
+Price: 5000
+Type: Suite
+Facilities:   AC, TV, Wifi, Breakfast & Jacuzzi
+-----------------------------
+Room: 301
+Price: 5000
+Type: Suite
+Facilities:  AC, TV, Wifi, Breakfast & Jacuzzi
+-----------------------------
+Room: 103
+Price: 1500
+Type: Single
+Facilities: AC, TV & Breakfast
+-----------------------------
+Room: 101
+Price: 1500
+Type: Single
+Facilities:  C, TV & Breakfast
+-----------------------------
+Room: 302
+Price: 5000
+Type: Suite
+Facilities:  AC, TV, Wifi, Breakfast & Jacuzzi
+-----------------------------
+Room: 201
+Price: 3000
+Type: Double
+Facilities:   AC, TV, Wifi & Breakfast
+-----------------------------
+Room: 101
+Price: 1500
+Type: Single
+Facilities:   AC, TV & Breakfast
+-----------------------------

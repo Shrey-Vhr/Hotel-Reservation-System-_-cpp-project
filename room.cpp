@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-//Constructor define
 //:: is scope resolution operator
 Room::Room(int n,float p,string t,string f) {
     number=n;
@@ -17,9 +16,14 @@ void Room::display() const{
 }
 
 //Show all available rooms
-void viewRooms(const vector<Room>& rooms) {
-    cout << "\n=== Available Rooms ===\n";
-    for (int i = 0; i < rooms.size(); i++) {
-    rooms[i].display();
+void viewAllRooms(const vector<Room>& rooms) {
+    if(rooms.empty()){
+        cout<<"\nNo rooms available.\n";
+        return;
+    }
+    
+    cout<<"\n===== ALL ROOMS =====\n";
+    for(int i = 0; i < rooms.size(); i++){
+        rooms[i].display();
     }
 }

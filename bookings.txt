@@ -1,8 +1,14 @@
+Name: Pragti
+Phone: 7714589652
+Room: 102
+Room Price: 1500
+Room Type: Single
+Room Facilities:  AC, TV & Breakfast
+-----------------------------
 Name: Shrey
 Phone: 7087708923
-Room: 101
------------------------------
-Name: pragti
-Phone: 7719413825
-Room: 103
+Room: 202
+Room Price: 3000
+Room Type: Double
+Room Facilities: AC, TV, Wifi & Breakfast
 -----------------------------
